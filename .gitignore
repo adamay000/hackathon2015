@@ -1,0 +1,7 @@
+.idea
+.bundle
+.sass-cache
+node_modules
+bower_components
+vendor
+*.svg

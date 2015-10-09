@@ -33,6 +33,7 @@ module.exports =
     name: 'lib.js'
     src: [
       './bower_components/three.js/three.min.js'
+      './src/js/lib/debug.js'
     ]
     dest: "#{root}#{dirJS}"
 

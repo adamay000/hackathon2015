@@ -1,5 +1,5 @@
 {
-  "name": "KosenHackathon",
+  "name": "hackathon2015",
   "version": "0.0.0",
   "authors": [
     "dyamada <yamadadaiki@team-lab.com>"
@@ -11,5 +11,8 @@
   ],
   "dependencies": {
     "three.js": "~0.71.0"
+  },
+  "devDependencies": {
+    "jquery": "2"
   }
 }

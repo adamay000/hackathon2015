@@ -1,2 +1,232 @@
 body {
-  background: #000; }
+  margin: 0;
+  padding: 0; }
+
+h1,
+p {
+  margin: 0;
+  padding: 0; }
+
+@-webkit-keyframes scene-show {
+  from {
+    opacity: 0;
+    background: #000; }
+  to {
+    opacity: 1;
+    background: orange; } }
+
+@keyframes scene-show {
+  from {
+    opacity: 0;
+    background: #000; }
+  to {
+    opacity: 1;
+    background: orange; } }
+
+@-webkit-keyframes scene-hide {
+  from {
+    opacity: 1;
+    background: orange; }
+  to {
+    opacity: 0;
+    background: #000; } }
+
+@keyframes scene-hide {
+  from {
+    opacity: 1;
+    background: orange; }
+  to {
+    opacity: 0;
+    background: #000; } }
+
+.loading {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #000;
+  text-align: center; }
+  .loading.show {
+    display: block;
+    background: orange;
+    -webkit-animation: scene-show 0.5s ease 0s;
+            animation: scene-show 0.5s ease 0s; }
+  .loading.leave {
+    -webkit-animation: scene-hide 0.5s ease 0s;
+            animation: scene-hide 0.5s ease 0s; }
+  .loading .button {
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0;
+    padding: 1px;
+    background: #fff;
+    -webkit-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+    box-sizing: border-box; }
+    .loading .button span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 16px 32px;
+      box-sizing: border-box;
+      background: orange;
+      -webkit-transition: all 0.3s ease;
+              transition: all 0.3s ease;
+      color: #fff; }
+    .loading .button:hover span {
+      background: #fff;
+      color: orange; }
+
+.game {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #000;
+  text-align: center; }
+  .game.show {
+    display: block;
+    background: orange;
+    -webkit-animation: scene-show 0.5s ease 0s;
+            animation: scene-show 0.5s ease 0s; }
+  .game.leave {
+    -webkit-animation: scene-hide 0.5s ease 0s;
+            animation: scene-hide 0.5s ease 0s; }
+  .game__header {
+    height: 120px;
+    position: relative; }
+    .game__header__title {
+      height: 80px;
+      line-height: 80px;
+      font-size: 24px;
+      font-weight: normal;
+      letter-spacing: 2px; }
+    .game__header__quit {
+      height: 80px;
+      margin-top: -80px;
+      padding-top: 50px;
+      box-sizing: border-box; }
+      .game__header__quit span {
+        text-decoration: underline;
+        color: darkcyan;
+        cursor: pointer; }
+        .game__header__quit span:hover {
+          color: white; }
+    .game__header__items {
+      position: relative;
+      width: 800px;
+      height: 40px;
+      margin: 0 auto; }
+      .game__header__items div {
+        height: 40px;
+        padding: 0 20px;
+        line-height: 40px;
+        display: inline-block;
+        border: 1px #000 solid;
+        box-sizing: border-box; }
+      .game__header__items__time {
+        position: absolute;
+        left: 0; }
+      .game__header__items__information {
+        position: absolute;
+        right: 0; }
+  .game__content {
+    margin-top: 40px;
+    height: calc(100vh - 160px);
+    overflow: hidden; }
+    .game__content__preview,
+    .game__content__editor {
+      width: calc((100vw - 120px) / 2 - 40px);
+      height: 100%;
+      margin-right: 40px;
+      float: left;
+      box-sizing: border-box; }
+      .game__content__preview canvas,
+      .game__content__editor canvas {
+        width: 100%;
+        height: 100%;
+        vertical-align: bottom; }
+    .game__content__editor {
+      height: calc(100% - 120px); }
+    .game__content__view-changer,
+    .game__content__block-selector {
+      width: 120px;
+      float: right;
+      border: 1px #000 solid;
+      box-sizing: border-box; }
+    .game__content__view-changer {
+      height: 120px;
+      line-height: 120px;
+      cursor: pointer; }
+    .game__content__block-selector {
+      margin-top: 40px;
+      height: calc(100% - 280px);
+      overflow: scroll; }
+      .game__content__block-selector ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none; }
+        .game__content__block-selector ul li {
+          margin: 0;
+          height: 20px;
+          line-height: 20px;
+          cursor: pointer; }
+          .game__content__block-selector ul li:hover {
+            border-left: 9px #000 solid;
+            border-right: 9px #000 solid; }
+    .game__content__chat {
+      width: calc((100vw) / 2 + 60px);
+      height: 80px;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      border: 1px #000 solid;
+      box-sizing: border-box;
+      overflow: scroll; }
+
+@-webkit-keyframes loader {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes loader {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+body {
+  background: #000;
+  font-family: 'Dosis', sans-serif;
+  font-size: 13px; }
+
+.loader {
+  display: none;
+  position: absolute;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  line-height: 100vh;
+  font-size: 24px;
+  letter-spacing: 14px;
+  color: #fff;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.2), 1px 0 1px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, 0.2), -1px 0 1px rgba(0, 0, 0, 0.2);
+  -webkit-animation: loader 1.5s infinite ease;
+          animation: loader 1.5s infinite ease; }
+  .loader.show {
+    display: block; }

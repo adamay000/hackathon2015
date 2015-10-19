@@ -4,7 +4,6 @@ tmp = './tmp'
 release = './release'
 
 dirJS = '/js'
-dirJSEntries = '/entries'
 dirCSS = '/css'
 
 module.exports =
@@ -33,6 +32,7 @@ module.exports =
     name: 'lib.js'
     src: [
       './bower_components/three.js/three.min.js'
+      './bower_components/jquery/dist/jquery.min.js'
       './src/js/lib/debug.js'
     ]
     dest: "#{root}#{dirJS}"
@@ -41,8 +41,8 @@ module.exports =
     js:
       files: [
         {
-          name: 'main.js'
-          src: "#{src}#{dirJS}#{dirJSEntries}"
+          name: 'index.js'
+          src: "#{src}#{dirJS}"
           dest:
             name: 'main.js'
             dir: "#{root}#{dirJS}"

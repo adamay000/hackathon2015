@@ -2,21 +2,57 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>Hackathon 2015</title>
+  <title>Trick or Make</title>
+  <link href='https://fonts.googleapis.com/css?family=Dosis:300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
 
-<h1>Hackathon 2015</h1>
+<div id="scene-loading" class="loading">
+  <p class="button" id="start-play"><span>play-alone</span></p>
+</div>
 
-<main>
-  <div class="editor">
-    <canvas></canvas>
+<div id="scene-game" class="game">
+  <div class="game__header">
+    <h1 class="game__header__title">Trick or Make</h1>
+    <p class="game__header__quit" id="game-quit"><span>quit</span></p>
+    <div class="game__header__items">
+      <div class="game__header__items__time">time-left</div>
+      <div class="game__header__items__theme">theme</div>
+      <div class="game__header__items__information">player-information</div>
+    </div>
   </div>
-  <div class="preview">
-    <canvas></canvas>
+  <div class="game__content">
+    <div class="game__content__preview">
+      <canvas id="preview"></canvas>
+    </div>
+    <div class="game__content__editor">
+      <canvas id="editor"></canvas>
+    </div>
+    <div id="view-changer" class="game__content__view-changer">
+      <p>view-changer</p>
+    </div>
+    <div id="box-selector" class="game__content__block-selector">
+      <p>block-selector</p>
+    </div>
+    <div class="game__content__chat">
+      <p>chat</p>
+      <p>chat</p>
+      <p>chat</p>
+      <p>chat</p>
+      <p>chat</p>
+      <p>chat</p>
+    </div>
   </div>
-</main>
+</div>
+
+<div id="scene-result" class="result">
+
+</div>
+
+<div id="loader" class="loader">
+  LOADING...
+</div>
 
 <script src="./js/lib.js"></script>
 <script src="./js/main.js"></script>

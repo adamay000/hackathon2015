@@ -1,0 +1,51 @@
+@keyframes scene-show {
+  from {
+    opacity: 0;
+    background: #000;
+  }
+  to {
+    opacity: 1;
+    background: orange;
+  }
+}
+
+@keyframes scene-hide {
+  from {
+    opacity: 1;
+    background: orange;
+  }
+  to {
+    opacity: 0;
+    background: #000;
+  }
+}
+
+@mixin scene {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: #000;
+
+  &.show {
+    display: block;
+    background: orange;
+
+    animation: scene-show .5s ease 0s;
+  }
+
+  &.enter {
+
+  }
+
+  &.leave {
+    animation: scene-hide .5s ease 0s;
+  }
+
+}

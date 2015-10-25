@@ -1,41 +1,48 @@
-root = './app'
+app = './app'
 src = './src'
 tmp = './tmp'
 release = './release'
+
+server = './server'
 
 dirJS = '/js'
 dirCSS = '/css'
 
 module.exports =
-  root: root
+  app: app
   src: src
 
   browserSync:
     watch: [
-      "#{root}/**/*.html"
-      "#{root}/**/*.js"
-      "#{root}/**/*.css"
+      "#{app}/**/*.html"
+      "#{app}/**/*.js"
+      "#{app}/**/*.css"
     ]
     init:
       default:
         port: 8901
         server:
-          baseDir: root
+          baseDir: app
         open: false
       open:
         port: 8901
         server:
-          baseDir: root
+          baseDir: app
         open: true
+
+  server:
+    file: "#{server}/index.js"
 
   jsLib:
     name: 'lib.js'
     src: [
       './bower_components/three.js/three.min.js'
+      './src/js/lib/TrackballControls.js'
+      './bower_components/socket.io-client/socket.io.js'
       './bower_components/jquery/dist/jquery.min.js'
       './src/js/lib/debug.js'
     ]
-    dest: "#{root}#{dirJS}"
+    dest: "#{app}#{dirJS}"
 
   watch:
     js:
@@ -45,7 +52,7 @@ module.exports =
           src: "#{src}#{dirJS}"
           dest:
             name: 'main.js'
-            dir: "#{root}#{dirJS}"
+            dir: "#{app}#{dirJS}"
         }
       ]
     css:
@@ -59,11 +66,11 @@ module.exports =
         {
           name: 'main.css'
           src: "#{tmp}#{dirCSS}/**/*.css"
-          dest: "#{root}#{dirCSS}"
+          dest: "#{app}#{dirCSS}"
         }
       ]
 
   release:
-    src: "#{root}/**"
-    base: root.replace(/\.\//, '')
+    src: "#{app}/**"
+    base: app.replace(/\.\//, '')
     dest: release

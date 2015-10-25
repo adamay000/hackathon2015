@@ -31,6 +31,10 @@ var Config = {
   },
   world: {
     size: 32
+  },
+  connection: {
+    host: 'localhost',
+    port: '8902'
   }
 };
 

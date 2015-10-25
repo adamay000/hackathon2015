@@ -1,21 +1,38 @@
 import Config from '../../config.js';
+import Event from '../../event.js';
 import World from '../../models/world/world.js';
 import CanvasBase from './canvas-base.js';
-import Broadcast from '../../utils/broadcast.js';
 import DrawSettings from '../../models/draw-settings/draw-settings.js';
 
 
 import BlockMono from '../../models/block/block-mono.js';
 
 var world = World.getInstance()
-  , broadcast = Broadcast.getInstance()
-  , drawSettings = DrawSettings.getInstance();
+  , drawSettings = DrawSettings.getInstance()
+  , $document = $(document);
 
 class Preview extends CanvasBase {
 
   _setDom() {
 
     this._$dom = $(Config.html.game.editor);
+
+  }
+
+  _createCamera() {
+
+    super._createCamera();
+
+    this._camera.position.x = 0;
+    this._camera.position.y = 0;
+    this._camera.position.z = 1000;
+    this._camera.lookAt(this._zero);
+
+    this._controls = new THREE.TrackballControls(this._camera, this._renderer.domElement);
+    this._controls.noPan = true;
+    this._controls.rotateSpeed = 10;
+
+    console.log(this._controls);
 
   }
 
@@ -37,6 +54,8 @@ class Preview extends CanvasBase {
 
   _animate(frame) {
 
+    this._controls.update();
+
     this.render();
 
   }
@@ -48,10 +67,10 @@ class Preview extends CanvasBase {
     if (interacts.length) {
 
       var mesh = interacts[0].object
-        , block = this._meshes.getBlockByMeshId(mesh.uuid)
-        , self = this;
+        , direction = interacts[0].face.normal
+        , block = this._meshes.getBlockByMeshId(mesh.uuid);
 
-      world.setBlock(new BlockMono(block.x + world.direction.x, block.y + world.direction.y, block.z + world.direction.z, drawSettings.color, drawSettings.borderColor));
+      world.setBlock(new BlockMono(block.x + direction.x, block.y + direction.y, block.z + direction.z, drawSettings.color, drawSettings.borderColor));
 
     }
 
@@ -104,8 +123,8 @@ class Preview extends CanvasBase {
 
         var blockId = this._meshes.getBlockIdByMeshId(mesh.uuid);
 
-        broadcast.execute(Broadcast.BLOCK_HOVER_REMOVE);
-        broadcast.execute(Broadcast.BLOCK_HOVER_ADD, [blockId]);
+        $document.trigger(Event.BLOCK_HOVER_OFF);
+        $document.trigger(Event.BLOCK_HOVER_ON, [blockId]);
 
       }
 
@@ -113,7 +132,7 @@ class Preview extends CanvasBase {
 
     }
 
-    broadcast.execute(Broadcast.BLOCK_HOVER_REMOVE);
+    $document.trigger(Event.BLOCK_HOVER_OFF);
 
   }
 
@@ -129,7 +148,7 @@ class Preview extends CanvasBase {
 
   }
 
-  _addHoverEffect(blockId) {
+  _addHoverEffect(event, blockId) {
 
     var mesh = this._meshes.getMeshByBlockId(blockId);
 
@@ -162,17 +181,19 @@ class Preview extends CanvasBase {
 
     this._cameraDistance = base * Config.game.textureSize / per;
 
-    this.setCamera();
+    this._controls.minDistance = this._cameraDistance * 0.2;
+    this._controls.maxDistance = this._cameraDistance * 2;
+
+    this._controls.handleResize();
 
   }
 
-  setCamera() {
+  destroy() {
 
-    var camera = world.direction.clone().multiplyScalar(this._cameraDistance);
-    this._camera.position.x = camera.x;
-    this._camera.position.y = camera.y;
-    this._camera.position.z = camera.z;
-    this._camera.lookAt(this._zero);
+    super.destroy();
+
+    this._controls.dispose();
+    this._controls = null;
 
   }
 

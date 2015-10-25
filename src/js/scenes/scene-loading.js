@@ -1,6 +1,7 @@
 import Config from '../config.js';
 import SceneBase from './scene-base.js';
 import game from '../scenes/scene-game.js';
+import connection from '../handlers/connection.js';
 
 class SceneLoading extends SceneBase {
 
@@ -15,6 +16,8 @@ class SceneLoading extends SceneBase {
     var self = this;
 
     this._$playButton.one('click', self.leave.bind(self, game.enter.bind(game)));
+
+
 
     return Promise.resolve();
 

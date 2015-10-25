@@ -22,6 +22,8 @@ class Block {
 
     this.breakable = true;
 
+    this.placedBy = null;
+
     this.color = 0x000000;
     this.borderColor = 0xffffff;
 

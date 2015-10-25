@@ -1,16 +1,22 @@
 import Config from '../../config.js';
+import Event from '../../event.js';
 import World from '../../models/world/world.js';
 import CanvasBase from './canvas-base.js';
-import Broadcast from '../../utils/broadcast.js';
 
 var world = World.getInstance()
-  , broadcast = Broadcast.getInstance();
+  , $document = $(document);
 
 class Preview extends CanvasBase {
 
   _setDom() {
 
     this._$dom = $(Config.html.game.preview);
+
+  }
+
+  _createCamera() {
+
+    this._camera = new THREE.OrthographicCamera();
 
   }
 
@@ -25,7 +31,6 @@ class Preview extends CanvasBase {
     this._hovered = null;
 
     this._setLight();
-    this._setLine();
 
     this._loadBlocks();
 
@@ -43,8 +48,8 @@ class Preview extends CanvasBase {
 
         var blockId = this._meshes.getBlockIdByMeshId(mesh.uuid);
 
-        broadcast.execute(Broadcast.BLOCK_HOVER_REMOVE);
-        broadcast.execute(Broadcast.BLOCK_HOVER_ADD, [blockId]);
+        $document.trigger(Event.BLOCK_HOVER_OFF);
+        $document.trigger(Event.BLOCK_HOVER_ON, [blockId]);
 
       }
 
@@ -52,11 +57,11 @@ class Preview extends CanvasBase {
 
     }
 
-    broadcast.execute(Broadcast.BLOCK_HOVER_REMOVE);
+    $document.trigger(Event.BLOCK_HOVER_OFF);
 
   }
 
-  _addHoverEffect(blockId) {
+  _addHoverEffect(event, blockId) {
 
     var mesh = this._meshes.getMeshByBlockId(blockId);
 
@@ -133,34 +138,6 @@ class Preview extends CanvasBase {
 
     this._ambientLight = new THREE.AmbientLight(0xffffff);
     this._scene.add(this._ambientLight);
-
-  }
-
-  _setLine() {
-
-    var geometry = new THREE.Geometry()
-      , material = new THREE.LineBasicMaterial({
-          color: 0xffffff
-        });
-
-    geometry.vertices = [
-      this._zero,
-      world.direction.clone().multiplyScalar(this._cameraDistance * 0.8)
-    ];
-
-    this._line = new THREE.Line(geometry, material);
-
-    this._scene.add(this._line);
-
-  }
-
-  setLine() {
-
-    this._line.geometry.vertices = [
-      this._zero,
-      world.direction.clone().multiplyScalar(this._cameraDistance * 0.8)
-    ];
-    this._line.geometry.verticesNeedUpdate = true;
 
   }
 

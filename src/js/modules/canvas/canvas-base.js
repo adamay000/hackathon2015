@@ -1,10 +1,12 @@
 import Config from '../../config.js';
+import Event from '../../event.js';
 import World from '../../models/world/world.js';
-import Broadcast from '../../utils/broadcast.js';
 import CanvasMeshes from './canvas-meshes.js';
 
 var world = World.getInstance()
-  , broadcast = Broadcast.getInstance();
+  , id = 0
+  , $window = $(window)
+  , $document = $(document);
 
 class CanvasBase {
 
@@ -14,9 +16,17 @@ class CanvasBase {
 
   }
 
+  _createCamera() {
+
+    this._camera = new THREE.PerspectiveCamera(60);
+
+  }
+
   _initialize() {}
 
   constructor() {
+
+    this.id = ++id;
 
     this._isAlive = true;
 
@@ -35,7 +45,7 @@ class CanvasBase {
     });
     this._scene = new THREE.Scene();
 
-    this._camera = new THREE.OrthographicCamera();
+    this._createCamera();
 
     this.resize();
 
@@ -49,13 +59,13 @@ class CanvasBase {
     world.on(World.EVENT_REMOVEBLOCK, this._eventRemoveBlock.bind(this));
     world.on(World.EVENT_RESET, this._eventReset.bind(this));
 
-    this._renderer.domElement.addEventListener('mousemove', this._eventHover.bind(this));
-    this._renderer.domElement.addEventListener('click', this._eventClick.bind(this));
-    this._renderer.domElement.addEventListener('contextmenu', this._eventRightClick.bind(this));
-    window.addEventListener('resize', this.resize.bind(this));
+    this._$dom.on(`mousemove.mousemove${this.id}`, this._eventHover.bind(this));
+    this._$dom.on(`click.click${this.id}`, this._eventClick.bind(this));
+    this._$dom.on(`contextmenu.contextmenu${this.id}`, this._eventRightClick.bind(this));
+    $window.on(`resize.resize${this.id}`, this.resize.bind(this));
 
-    broadcast.register(Broadcast.BLOCK_HOVER_ADD, this._addHoverEffect.bind(this));
-    broadcast.register(Broadcast.BLOCK_HOVER_REMOVE, this._removeHoverEffect.bind(this));
+    $document.on(`${Event.BLOCK_HOVER_ON}.${Event.BLOCK_HOVER_ON}${this.id}`, this._addHoverEffect.bind(this));
+    $document.on(`${Event.BLOCK_HOVER_OFF}.${Event.BLOCK_HOVER_OFF}${this.id}`, this._removeHoverEffect.bind(this));
 
     this._initialize();
 
@@ -139,7 +149,12 @@ class CanvasBase {
     this._camera.bottom = -distance;
     this._camera.left = -distance * rate;
 
-    //this._camera.aspect = this._width / this._height;
+    if (this._camera.aspect) {
+
+      this._camera.aspect = this._width / this._height;
+
+    }
+
     this._camera.updateProjectionMatrix();
 
   }
@@ -213,16 +228,15 @@ class CanvasBase {
 
     this._isAlive = false;
 
-    // TODO: イベントを切る処理を書く
-    //world.off();
-    //
-    //this._renderer.domElement.removeEventListener('mousemove', this._eventHover.bind(this));
-    //this._renderer.domElement.removeEventListener('click', this._eventClick.bind(this));
-    //this._renderer.domElement.removeEventListener('contextmenu', this._eventRightClick.bind(this));
-    //window.removeEventListener('resize', this.resize.bind(this));
-    //
-    ////broadcast.unregister(Broadcast.BLOCK_HOVER_ADD, this._addHoverEffect.bind(this));
-    ////broadcast.unregister(Broadcast.BLOCK_HOVER_REMOVE, this._removeHoverEffect.bind(this));
+    world.off();
+
+    this._$dom.off(`mousemove.mousemove${this.id}`);
+    this._$dom.off(`click.click${this.id}`);
+    this._$dom.off(`contextmenu.contextmenu${this.id}`);
+    $window.off(`resize.resize${this.id}`);
+
+    $window.off(`${Event.BLOCK_HOVER_ON}.${Event.BLOCK_HOVER_ON}${this.id}`);
+    $window.off(`${Event.BLOCK_HOVER_OFF}.${Event.BLOCK_HOVER_OFF}${this.id}`);
 
     this._renderer = null;
 

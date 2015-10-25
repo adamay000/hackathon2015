@@ -6,7 +6,7 @@ gulp.task 'dev', ->
   global.isWatching = true
   global.isRelease = false
   global.isOpen = false
-  runSequence 'js-lib', 'sass', 'browserify', 'browser-sync'
+  runSequence 'websocket', 'js-lib', 'sass', 'browserify', 'browser-sync'
 
 gulp.task 'releasetest', ->
   global.isWatching = true

@@ -1,29 +1,13 @@
 import Config from '../../config.js';
 import BlockCore from '../block/block-core.js';
 
-var world = null
-
-  , currentDirection = 0
-  , direction = [
-      new THREE.Vector3(0, 0, 1),
-      new THREE.Vector3(1, 0, 0),
-      new THREE.Vector3(0, 0, -1),
-      new THREE.Vector3(-1, 0, 0),
-      new THREE.Vector3(0, 1, 0),
-      new THREE.Vector3(0, -1, 0)
-    ];
+var world = null;
 
 class World {
 
   static get EVENT_SETBLOCK() { return 'EVENT_SETBLOCK'; }
   static get EVENT_REMOVEBLOCK() { return 'EVENT_REMOVEBLOCK'; }
   static get EVENT_RESET() { return 'EVENT_RESET'; }
-  static get DIRECTION1() { return direction[0]; }
-  static get DIRECTION2() { return direction[1]; }
-  static get DIRECTION3() { return direction[2]; }
-  static get DIRECTION4() { return direction[3]; }
-  static get DIRECTION5() { return direction[4]; }
-  static get DIRECTION6() { return direction[5]; }
   static getInstance() { return world; }
 
   constructor() {
@@ -31,24 +15,7 @@ class World {
     this._data = [];
     this._resetEvents();
 
-    this.direction = World.DIRECTION1;
-
     this.reset();
-
-    // TODO: 消す
-    var self = this;
-    var b = new BlockCore(16, 16, 17);
-    window.w = function() {
-
-      self.setBlock(b);
-
-    };
-
-    window.w2 = function() {
-
-      self.removeBlock(b);
-
-    };
 
   }
 
@@ -59,14 +26,6 @@ class World {
       EVENT_REMOVEBLOCK: [],
       EVENT_RESET: []
     };
-
-  }
-
-  changeView() {
-
-    ++currentDirection >= direction.length && (currentDirection = 0);
-
-    this.direction = direction[currentDirection];
 
   }
 

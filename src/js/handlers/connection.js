@@ -1,22 +1,31 @@
-
+import Config from '../config.js';
 
 class Connection {
 
   constructor() {
 
+    this._socket = null;
+
   }
 
-  /**
-   * ソケット通信を開始する
-   */
   connect() {
 
+    if (this._socket === null) {
+
+      this._socket = io(`${Config.host}:${Config.port}`);
+
+    }
+
   }
 
-  /**
-   * ソケット通信を切断する
-   */
   disconnect() {
+
+    if (this._socket !== null) {
+
+      this._socket.close();
+      this._socket = null;
+
+    }
 
   }
 
